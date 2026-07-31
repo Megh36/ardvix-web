@@ -145,9 +145,9 @@ export default function Proof() {
                   <span className="font-mono text-copper text-xs tracking-widest mb-2">
                     {step.number}
                   </span>
-                  <h4 className="font-sans font-bold text-lg text-paper mb-2">
+                  <h3 className="font-sans font-bold text-lg text-paper mb-2">
                     {step.name}
-                  </h4>
+                  </h3>
                   <p className="text-steel-mist text-sm leading-relaxed md:max-w-[200px]">
                     {step.desc}
                   </p>

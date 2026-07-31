@@ -1,5 +1,3 @@
-"use client";
-
 import Reveal from "@/components/Reveal";
 
 function WhatsAppIcon() {
@@ -85,33 +83,6 @@ export default function FinalCTA() {
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes marquee-slow {
-          from {
-            transform: translateX(0);
-          }
-          to {
-            transform: translateX(-33.33%);
-          }
-        }
-        .animate-marquee-slow {
-          animation: marquee-slow 60s linear infinite;
-        }
-        @keyframes pulse-glow {
-          0%,
-          100% {
-            box-shadow: 0 0 0 0 rgba(232, 84, 29, 0.22);
-          }
-          50% {
-            box-shadow: 0 0 22px 4px rgba(232, 84, 29, 0.22);
-          }
-        }
-        .cta-pulse-primary,
-        .cta-pulse-secondary {
-          animation: pulse-glow 4s ease-in-out infinite;
-        }
-      `}</style>
     </section>
   );
 }

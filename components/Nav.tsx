@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Nav() {
   const [hidden, setHidden] = useState(false);
@@ -31,10 +32,10 @@ export default function Nav() {
       }}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="/" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2">
           <Image
             src="/ardvix-mark.svg"
-            alt="Ardvix"
+            alt=""
             width={28}
             height={28}
             priority
@@ -42,7 +43,7 @@ export default function Nav() {
           <span className="font-sans font-medium tracking-tight text-paper">
             ARDVIX
           </span>
-        </a>
+        </Link>
 
         <div className="hidden md:flex items-center gap-8 text-sm text-steel-mist">
           <a href="#services" className="hover:text-paper transition-colors">

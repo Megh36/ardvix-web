@@ -1,5 +1,3 @@
-"use client";
-
 import Reveal from "@/components/Reveal";
 
 export default function Hero() {
@@ -62,20 +60,6 @@ export default function Hero() {
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes marquee {
-          from {
-            transform: translateX(0);
-          }
-          to {
-            transform: translateX(-33.33%);
-          }
-        }
-        .animate-marquee {
-          animation: marquee 40s linear infinite;
-        }
-      `}</style>
     </section>
   );
 }

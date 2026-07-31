@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <Image src="/ardvix-mark.svg" alt="Ardvix" width={28} height={28} />
+              <Image src="/ardvix-mark.svg" alt="" width={28} height={28} />
               <span className="font-medium">ARDVIX</span>
             </div>
             <p className="text-steel-mist text-sm mb-6">
@@ -17,9 +17,9 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-mono text-copper text-xs tracking-widest mb-4">
-              // SERVICES
-            </h4>
+            <h3 className="font-mono text-copper text-xs tracking-widest mb-4">
+              {"// SERVICES"}
+            </h3>
             <ul className="space-y-2 text-sm text-steel-mist">
               <li>AI Voice Agent</li>
               <li>WhatsApp Automation</li>
@@ -31,9 +31,9 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-mono text-copper text-xs tracking-widest mb-4">
-              // VERTICALS
-            </h4>
+            <h3 className="font-mono text-copper text-xs tracking-widest mb-4">
+              {"// VERTICALS"}
+            </h3>
             <ul className="space-y-2 text-sm text-steel-mist">
               <li>Real Estate</li>
               <li>Solar</li>
@@ -42,9 +42,9 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-mono text-copper text-xs tracking-widest mb-4">
-              // GET STARTED
-            </h4>
+            <h3 className="font-mono text-copper text-xs tracking-widest mb-4">
+              {"// GET STARTED"}
+            </h3>
             <div className="flex flex-col gap-3">
               <a
                 href="#book"
