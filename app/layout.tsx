@@ -9,6 +9,7 @@ const schibsted = Schibsted_Grotesk({
   subsets: ["latin"],
   variable: "--font-schibsted",
   display: "swap",
+  preload: true,
 });
 
 const jetbrains = JetBrains_Mono({
