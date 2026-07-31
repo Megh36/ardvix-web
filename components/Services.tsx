@@ -1,3 +1,5 @@
+import Reveal from "@/components/Reveal";
+
 const services = [
   {
     id: "01",
@@ -38,7 +40,7 @@ export default function Services() {
     <section id="services" className="px-6 py-32">
       <div className="max-w-7xl mx-auto">
         <p className="font-mono text-copper text-sm tracking-widest mb-6">
-          // WHAT WE BUILD
+          {"// WHAT WE BUILD"}
         </p>
 
         <h2 className="font-sans font-medium text-4xl md:text-6xl leading-[1.05] tracking-tight mb-16">
@@ -46,23 +48,24 @@ export default function Services() {
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {services.map((s) => (
-            <div
+          {services.map((s, i) => (
+            <Reveal
               key={s.id}
-              className={`bg-[#121216] border border-[rgba(171,184,204,0.15)] rounded-2xl p-8 transition-colors duration-200 hover:border-copper ${
-                s.large ? "md:col-span-2" : "md:col-span-1"
-              }`}
+              delay={i * 60}
+              className={s.large ? "md:col-span-2" : "md:col-span-1"}
             >
-              <span className="font-mono text-copper text-sm tracking-widest">
-                {s.id}
-              </span>
-              <h3 className="font-sans font-medium text-xl text-paper mt-4 mb-3">
-                {s.name}
-              </h3>
-              <p className="text-steel-mist text-sm leading-relaxed">
-                {s.desc}
-              </p>
-            </div>
+              <div className="bg-[#121216] border border-[rgba(171,184,204,0.15)] rounded-2xl p-8 h-full transition-colors duration-200 hover:border-copper">
+                <span className="font-mono text-copper text-sm tracking-widest">
+                  {s.id}
+                </span>
+                <h3 className="font-sans font-medium text-xl text-paper mt-4 mb-3">
+                  {s.name}
+                </h3>
+                <p className="text-steel-mist text-sm leading-relaxed">
+                  {s.desc}
+                </p>
+              </div>
+            </Reveal>
           ))}
         </div>
 

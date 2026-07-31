@@ -1,3 +1,5 @@
+import Reveal from "@/components/Reveal";
+
 export default function ProblemStrip() {
   const lines = [
     { tag: "MISSED", text: "Enquiry came at 11:40 PM. Nobody called back." },
@@ -9,22 +11,25 @@ export default function ProblemStrip() {
     <section className="px-6 py-32">
       <div className="max-w-4xl mx-auto">
         <p className="font-mono text-copper text-sm tracking-widest mb-16">
-          // THE CHAOS YOU LIVE IN
+          {"// THE CHAOS YOU LIVE IN"}
         </p>
 
         <div>
-          {lines.map((line) => (
-            <div
-              key={line.tag}
-              className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 mb-8 last:mb-0"
-            >
-              <span className="font-mono text-copper text-xs tracking-widest border border-copper/30 rounded px-3 py-1 w-fit shrink-0">
-                [{line.tag}]
-              </span>
-              <span className="font-mono text-paper text-base md:text-lg">
-                {line.text}
-              </span>
-            </div>
+          {lines.map((line, i) => (
+            <Reveal key={line.tag} delay={i * 120}>
+              <div
+                className={`flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 ${
+                  i === lines.length - 1 ? "" : "mb-8"
+                }`}
+              >
+                <span className="font-mono text-copper text-xs tracking-widest border border-copper/30 rounded px-3 py-1 w-fit shrink-0">
+                  [{line.tag}]
+                </span>
+                <span className="font-mono text-paper text-base md:text-lg">
+                  {line.text}
+                </span>
+              </div>
+            </Reveal>
           ))}
         </div>
 

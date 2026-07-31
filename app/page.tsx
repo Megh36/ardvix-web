@@ -4,6 +4,8 @@ import ProblemStrip from "@/components/ProblemStrip";
 import HowItWorks from "@/components/HowItWorks";
 import Services from "@/components/Services";
 import Verticals from "@/components/Verticals";
+import Proof from "@/components/Proof";
+import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -16,6 +18,8 @@ export default function Home() {
         <HowItWorks />
         <Services />
         <Verticals />
+        <Proof />
+        <FinalCTA />
       </main>
       <Footer />
     </>

@@ -1,3 +1,5 @@
+import Reveal from "@/components/Reveal";
+
 const steps = [
   {
     tag: "STEP 01",
@@ -77,7 +79,7 @@ export default function HowItWorks() {
     <section id="process" className="px-6 py-32">
       <div className="max-w-5xl mx-auto">
         <p className="font-mono text-copper text-sm tracking-widest mb-6">
-          // HOW IT WORKS
+          {"// HOW IT WORKS"}
         </p>
 
         <h2 className="font-sans font-medium text-4xl md:text-6xl leading-[1.05] tracking-tight">
@@ -88,25 +90,24 @@ export default function HowItWorks() {
           {steps.map((step, i) => {
             const Icon = icons[i];
             return (
-              <div
-                key={step.tag}
-                className="flex items-center justify-between gap-8 mt-24 first:mt-24"
-              >
-                <div className="max-w-2xl">
-                  <span className="font-mono text-copper text-xs tracking-widest">
-                    {step.tag} · {step.name}
-                  </span>
-                  <h3 className="font-sans font-bold text-2xl md:text-3xl text-paper mt-3 mb-4">
-                    {step.name}
-                  </h3>
-                  <p className="text-steel-mist text-base md:text-lg leading-relaxed">
-                    {step.body}
-                  </p>
+              <Reveal key={step.tag} className="mt-24">
+                <div className="flex items-center justify-between gap-8">
+                  <div className="max-w-2xl">
+                    <span className="font-mono text-copper text-xs tracking-widest">
+                      {step.tag} · {step.name}
+                    </span>
+                    <h3 className="font-sans font-bold text-2xl md:text-3xl text-paper mt-3 mb-4">
+                      {step.name}
+                    </h3>
+                    <p className="text-steel-mist text-base md:text-lg leading-relaxed">
+                      {step.body}
+                    </p>
+                  </div>
+                  <div className="hidden md:block text-steel-mist shrink-0">
+                    <Icon />
+                  </div>
                 </div>
-                <div className="hidden md:block text-steel-mist shrink-0">
-                  <Icon />
-                </div>
-              </div>
+              </Reveal>
             );
           })}
         </div>

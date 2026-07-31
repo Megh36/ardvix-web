@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Schibsted_Grotesk, JetBrains_Mono } from "next/font/google";
+import Preloader from "@/components/Preloader";
 import "./globals.css";
 
 const schibsted = Schibsted_Grotesk({
@@ -25,7 +26,10 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${schibsted.variable} ${jetbrains.variable}`}>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <Preloader />
+        {children}
+      </body>
     </html>
   );
 }
