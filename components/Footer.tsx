@@ -1,0 +1,86 @@
+import Image from "next/image";
+
+export default function Footer() {
+  return (
+    <footer className="relative border-t border-copper/30 mt-32 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 pt-16 pb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+          <div className="md:col-span-1">
+            <div className="flex items-center gap-2 mb-4">
+              <Image src="/ardvix-mark.svg" alt="Ardvix" width={28} height={28} />
+              <span className="font-medium">ARDVIX</span>
+            </div>
+            <p className="text-steel-mist text-sm mb-6">
+              AI automation systems, built in India.
+            </p>
+            <p className="font-mono text-xs text-steel-mist">hello@ardvix.com</p>
+          </div>
+
+          <div>
+            <h4 className="font-mono text-copper text-xs tracking-widest mb-4">
+              // SERVICES
+            </h4>
+            <ul className="space-y-2 text-sm text-steel-mist">
+              <li>AI Voice Agent</li>
+              <li>WhatsApp Automation</li>
+              <li>Lead Capture and CRM</li>
+              <li>Appointment Systems</li>
+              <li>Custom Workflows</li>
+              <li>Full Automation</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-mono text-copper text-xs tracking-widest mb-4">
+              // VERTICALS
+            </h4>
+            <ul className="space-y-2 text-sm text-steel-mist">
+              <li>Real Estate</li>
+              <li>Solar</li>
+              <li>Clinics</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-mono text-copper text-xs tracking-widest mb-4">
+              // GET STARTED
+            </h4>
+            <div className="flex flex-col gap-3">
+              <a
+                href="#book"
+                className="bg-copper text-obsidian text-sm font-medium px-4 py-2 rounded-full text-center"
+              >
+                Book a free audit
+              </a>
+              <a
+                href="#whatsapp"
+                className="border border-copper text-copper text-sm px-4 py-2 rounded-full text-center"
+              >
+                Message us on WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-16 pt-8 border-t border-steel-mist/10">
+          <p className="font-mono text-xs text-steel-mist">
+            2026 Ardvix Automation Systems LLP. All rights reserved.
+          </p>
+        </div>
+      </div>
+
+      <div className="relative overflow-hidden -mb-16 md:-mb-24 lg:-mb-32">
+        <h2
+          className="font-sans font-bold text-center leading-none select-none"
+          style={{
+            fontSize: "clamp(120px, 22vw, 380px)",
+            color: "transparent",
+            WebkitTextStroke: "1px rgba(171, 184, 204, 0.15)",
+          }}
+        >
+          ARDVIX
+        </h2>
+      </div>
+    </footer>
+  );
+}
