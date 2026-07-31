@@ -13,7 +13,12 @@ export default function Footer() {
             <p className="text-steel-mist text-sm mb-6">
               AI automation systems, built in India.
             </p>
-            <p className="font-mono text-xs text-steel-mist">hello@ardvix.com</p>
+            <a
+              href="mailto:hello@ardvix.com"
+              className="font-mono text-xs text-steel-mist hover:text-paper transition-colors"
+            >
+              hello@ardvix.com
+            </a>
           </div>
 
           <div>
@@ -47,13 +52,13 @@ export default function Footer() {
             </h3>
             <div className="flex flex-col gap-3">
               <a
-                href="#book"
+                href="mailto:hello@ardvix.com?subject=Free%20Automation%20Audit%20Request&body=Hi%20Ardvix%2C%20I%27d%20like%20to%20book%20a%20free%20automation%20audit%20for%20my%20business."
                 className="bg-copper text-obsidian text-sm font-medium px-4 py-2 rounded-full text-center"
               >
                 Book a free audit
               </a>
               <a
-                href="#whatsapp"
+                href="mailto:hello@ardvix.com?subject=Ardvix%20Enquiry&body=Hi%20Ardvix%2C%20I%27d%20like%20to%20talk%20about%20automation%20for%20my%20business."
                 className="border border-copper text-copper text-sm px-4 py-2 rounded-full text-center"
               >
                 Message us on WhatsApp

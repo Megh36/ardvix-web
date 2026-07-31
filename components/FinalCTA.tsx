@@ -51,13 +51,13 @@ export default function FinalCTA() {
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
               <a
-                href="#"
+                href="mailto:hello@ardvix.com?subject=Free%20Automation%20Audit%20Request&body=Hi%20Ardvix%2C%20I%27d%20like%20to%20book%20a%20free%20automation%20audit%20for%20my%20business."
                 className="cta-pulse-primary bg-copper text-obsidian font-medium px-8 py-4 rounded-full hover:opacity-90 transition-opacity"
               >
                 Book a free audit
               </a>
               <a
-                href="#"
+                href="mailto:hello@ardvix.com?subject=Ardvix%20Enquiry&body=Hi%20Ardvix%2C%20I%27d%20like%20to%20talk%20about%20automation%20for%20my%20business."
                 className="cta-pulse-secondary border border-copper text-copper font-medium px-8 py-4 rounded-full flex items-center gap-2 hover:bg-copper/10 transition-colors"
               >
                 <WhatsAppIcon />

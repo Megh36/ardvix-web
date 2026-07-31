@@ -24,7 +24,7 @@ export default function Hero() {
 
           <div className="flex flex-wrap items-center gap-4 mt-10">
             <a
-              href="#book"
+              href="mailto:hello@ardvix.com?subject=Free%20Automation%20Audit%20Request&body=Hi%20Ardvix%2C%20I%27d%20like%20to%20book%20a%20free%20automation%20audit%20for%20my%20business."
               className="bg-copper text-obsidian font-medium px-6 py-3 rounded-full hover:opacity-90 transition-opacity">
               Book a free automation audit
             </a>
