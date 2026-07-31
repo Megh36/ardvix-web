@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Schibsted_Grotesk, JetBrains_Mono } from "next/font/google";
 import Preloader from "@/components/Preloader";
 import "./globals.css";
@@ -15,10 +15,35 @@ const jetbrains = JetBrains_Mono({
   display: "swap",
 });
 
+const title = "Ardvix — AI Automation Systems for Indian SMBs";
+const description =
+  "Ardvix builds AI voice agents, WhatsApp automation, and workflow systems for real estate, solar, and clinics. Live in 2 weeks.";
+
 export const metadata: Metadata = {
-  title: "Ardvix — AI Automation Systems for Indian SMBs",
-  description:
-    "Ardvix builds AI voice agents, WhatsApp automation, and workflow systems for real estate, solar, and clinics. Live in 2 weeks.",
+  metadataBase: new URL("https://ardvix.com"),
+  title,
+  description,
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    title,
+    description,
+    url: "https://ardvix.com",
+    siteName: "Ardvix",
+    locale: "en_IN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0B0B0E",
 };
 
 export default function RootLayout({
