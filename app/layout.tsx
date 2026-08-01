@@ -3,6 +3,7 @@ import { Schibsted_Grotesk, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Preloader from "@/components/Preloader";
+import LenisProvider from "@/components/LenisProvider";
 import "./globals.css";
 
 const schibsted = Schibsted_Grotesk({
@@ -56,7 +57,7 @@ export default function RootLayout({
     <html lang="en" className={`${schibsted.variable} ${jetbrains.variable}`}>
       <body className="antialiased">
         <Preloader />
-        {children}
+        <LenisProvider>{children}</LenisProvider>
         <Analytics />
         <SpeedInsights />
       </body>

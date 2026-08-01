@@ -1,117 +1,316 @@
-import Reveal from "@/components/Reveal";
+"use client";
 
-const steps = [
+import { useEffect, useRef } from "react";
+import PipelineDiagram, {
+  usePipelineRefs,
+} from "@/components/pipeline/PipelineDiagram";
+import usePrefersReducedMotion from "@/components/usePrefersReducedMotion";
+
+const STEPS = [
   {
-    tag: "STEP 01",
-    name: "Capture",
-    body: "Every enquiry lands in one place — WhatsApp, missed calls, web forms, ad clicks, walk-ins. Nothing slips through.",
+    tag: "STEP 01 · Capture",
+    title: "Every enquiry, one place.",
+    body: "WhatsApp, missed calls, web forms, ad clicks, walk-ins — nothing slips through the cracks anymore.",
   },
   {
-    tag: "STEP 02",
-    name: "Automate",
-    body: "An AI layer qualifies, replies, books, and routes — in under 30 seconds, in your customer's language.",
+    tag: "STEP 02 · Automate",
+    title: "AI does the busywork.",
+    body: "Qualifies, replies, books, and routes — in under 30 seconds, in your customer's language, 24/7.",
   },
   {
-    tag: "STEP 03",
-    name: "Grow",
-    body: "You get a live pipeline instead of a chaotic inbox. Response time drops from hours to seconds. Your team stops doing what a system should do.",
+    tag: "STEP 03 · Grow",
+    title: "A live pipeline, not chaos.",
+    body: "Response time drops from hours to seconds. Your team stops doing what a system should do.",
   },
-];
-
-function CaptureIcon() {
-  return (
-    <svg
-      width="120"
-      height="120"
-      viewBox="0 0 120 120"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-    >
-      <circle cx="60" cy="60" r="6" />
-      <circle cx="20" cy="25" r="4" />
-      <circle cx="100" cy="25" r="4" />
-      <circle cx="20" cy="95" r="4" />
-      <line x1="24" y1="28" x2="55" y2="56" />
-      <line x1="96" y1="28" x2="65" y2="56" />
-      <line x1="24" y1="92" x2="55" y2="64" />
-    </svg>
-  );
-}
-
-function AutomateIcon() {
-  return (
-    <svg
-      width="120"
-      height="120"
-      viewBox="0 0 120 120"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-    >
-      <path d="M20 60 L75 60" />
-      <path d="M55 35 L80 60 L55 85" />
-      <path d="M20 35 L20 85" />
-    </svg>
-  );
-}
-
-function GrowIcon() {
-  return (
-    <svg
-      width="120"
-      height="120"
-      viewBox="0 0 120 120"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-    >
-      <polyline points="15,90 40,65 58,78 105,20" />
-      <polyline points="80,20 105,20 105,45" />
-    </svg>
-  );
-}
-
-const icons = [CaptureIcon, AutomateIcon, GrowIcon];
+] as const;
 
 export default function HowItWorks() {
+  const reducedMotion = usePrefersReducedMotion();
+
   return (
     <section id="process" className="px-6 py-32">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-5xl mx-auto mb-16">
         <p className="font-mono text-copper text-sm tracking-widest mb-6">
           {"// HOW IT WORKS"}
         </p>
-
         <h2 className="font-sans font-medium text-4xl md:text-6xl leading-[1.05] tracking-tight">
           Chaos in. Signal out.
         </h2>
-
-        <div>
-          {steps.map((step, i) => {
-            const Icon = icons[i];
-            return (
-              <Reveal key={step.tag} className="mt-24">
-                <div className="flex items-center justify-between gap-8">
-                  <div className="max-w-2xl">
-                    <span className="font-mono text-copper text-xs tracking-widest">
-                      {step.tag} · {step.name}
-                    </span>
-                    <h3 className="font-sans font-bold text-2xl md:text-3xl text-paper mt-3 mb-4">
-                      {step.name}
-                    </h3>
-                    <p className="text-steel-mist text-base md:text-lg leading-relaxed">
-                      {step.body}
-                    </p>
-                  </div>
-                  <div className="hidden md:block text-steel-mist shrink-0">
-                    <Icon />
-                  </div>
-                </div>
-              </Reveal>
-            );
-          })}
-        </div>
       </div>
+
+      {reducedMotion ? (
+        <StaticSteps />
+      ) : (
+        <>
+          <div className="md:hidden">
+            <MobileSteps />
+          </div>
+          <DesktopSequence />
+        </>
+      )}
     </section>
+  );
+}
+
+function CopyBlock({
+  step,
+  refCb,
+  className = "",
+}: {
+  step: (typeof STEPS)[number];
+  refCb?: (el: HTMLDivElement | null) => void;
+  className?: string;
+}) {
+  const [tag, name] = step.tag.split(" · ");
+  return (
+    <div ref={refCb} className={className}>
+      <span className="font-mono text-copper text-xs tracking-widest">
+        {tag} · {name}
+      </span>
+      <h3 className="font-sans font-bold text-3xl md:text-4xl text-paper mt-3 mb-4">
+        {step.title}
+      </h3>
+      <p className="text-steel-mist text-base md:text-lg leading-relaxed max-w-md">
+        {step.body}
+      </p>
+    </div>
+  );
+}
+
+/** Desktop: pinned split layout, GSAP ScrollTrigger scrub, disabled below md.
+ * GSAP/ScrollTrigger/the pipeline timeline are all loaded dynamically inside
+ * this effect (not statically imported) so their ~50kb doesn't sit in the
+ * critical initial JS bundle needed for first paint — nothing here is
+ * needed until well after the page has already rendered and hydrated. */
+function DesktopSequence() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const copyRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const progressBarRef = useRef<HTMLDivElement>(null);
+  const pipelineRefs = usePipelineRefs();
+
+  useEffect(() => {
+    let cancelled = false;
+    let cleanup: (() => void) | undefined;
+
+    Promise.all([
+      import("gsap"),
+      import("gsap/ScrollTrigger"),
+      import("@/components/pipeline/pipelineTimeline"),
+    ]).then(([{ gsap }, { ScrollTrigger }, { buildPipelineTimeline }]) => {
+      if (cancelled) return;
+      gsap.registerPlugin(ScrollTrigger);
+
+      const mm = gsap.matchMedia();
+
+      mm.add("(min-width: 768px)", () => {
+        const section = sectionRef.current;
+        if (!section) return;
+
+        const master = gsap.timeline({
+          defaults: { ease: "power3.out" },
+          scrollTrigger: {
+            trigger: section,
+            start: "top top",
+            end: "+=300%",
+            pin: true,
+            scrub: 0.8,
+            snap: {
+              snapTo: [1 / 6, 1 / 2, 5 / 6],
+              duration: 0.4,
+              ease: "power1.inOut",
+            },
+            onUpdate: (self) => {
+              if (progressBarRef.current) {
+                progressBarRef.current.style.width = `${self.progress * 100}%`;
+                progressBarRef.current.style.opacity = self.isActive
+                  ? "1"
+                  : "0";
+              }
+            },
+          },
+        });
+
+        buildPipelineTimeline(pipelineRefs, master);
+
+        gsap.set(copyRefs.current, { opacity: 0, y: 20 });
+        gsap.set(copyRefs.current[0], { opacity: 1, y: 0 });
+
+        STEPS.forEach((_, i) => {
+          if (i === 0) return;
+          const at = i; // step boundaries sit at timeline t=1 and t=2
+          master.to(
+            copyRefs.current[i - 1],
+            { opacity: 0, y: -20, duration: 0.25 },
+            at - 0.15
+          );
+          master.to(
+            copyRefs.current[i],
+            { opacity: 1, y: 0, duration: 0.25 },
+            at
+          );
+        });
+
+        return () => {
+          master.scrollTrigger?.kill();
+          master.kill();
+        };
+      });
+      // pinning intentionally has no handler below 768px — MobileSteps covers that range
+
+      cleanup = () => mm.revert();
+    });
+
+    return () => {
+      cancelled = true;
+      cleanup?.();
+    };
+    // pipelineRefs is a stable set of refs, but a new wrapping object each
+    // render — intentionally omitted so this effect only runs once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <div className="hidden md:block">
+      <div
+        ref={progressBarRef}
+        className="fixed top-0 left-0 h-px bg-copper z-40"
+        style={{ width: 0, opacity: 0 }}
+      />
+      <div
+        ref={sectionRef}
+        className="relative h-screen grid grid-cols-2 gap-12 items-center max-w-6xl mx-auto"
+      >
+        <div className="relative h-64">
+          {STEPS.map((step, i) => (
+            <CopyBlock
+              key={step.tag}
+              step={step}
+              refCb={(el) => {
+                copyRefs.current[i] = el;
+              }}
+              className="absolute inset-0"
+            />
+          ))}
+        </div>
+        <PipelineDiagram
+          refs={pipelineRefs}
+          className="w-full h-auto max-h-[70vh]"
+        />
+      </div>
+    </div>
+  );
+}
+
+/** Mobile: three stacked blocks, each with its own small diagram that plays
+ * once (cumulative through that step) on IntersectionObserver entry. */
+function MobileSteps() {
+  return (
+    <div className="flex flex-col gap-20">
+      {STEPS.map((step, i) => (
+        <MobileStepBlock key={step.tag} step={step} stepIndex={i} />
+      ))}
+    </div>
+  );
+}
+
+function MobileStepBlock({
+  step,
+  stepIndex,
+}: {
+  step: (typeof STEPS)[number];
+  stepIndex: number;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const pipelineRefs = usePipelineRefs();
+  const played = useRef(false);
+  const tlRef = useRef<{ kill: () => void } | null>(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !played.current) {
+            played.current = true;
+            observer.unobserve(entry.target);
+            // load GSAP + build the timeline (and its getTotalLength()
+            // measurements) lazily, right before it's needed, instead of
+            // up front for every block on mount
+            import("@/components/pipeline/pipelineTimeline").then(
+              ({ buildPipelineTimeline }) => {
+                const tl = buildPipelineTimeline(pipelineRefs);
+                tlRef.current = tl;
+                tl.tweenTo(stepIndex + 1, {
+                  duration: 1,
+                  ease: "power2.out",
+                });
+              }
+            );
+          }
+        });
+      },
+      { threshold: 0.3, rootMargin: "200px 0px" }
+    );
+
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      tlRef.current?.kill();
+    };
+    // pipelineRefs is a stable set of refs, but a new wrapping object each
+    // render — intentionally omitted so this effect only re-runs on stepIndex
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stepIndex]);
+
+  return (
+    <div ref={containerRef}>
+      <CopyBlock step={step} className="mb-8" />
+      <PipelineDiagram
+        refs={pipelineRefs}
+        className="w-full max-w-xs mx-auto h-auto"
+      />
+    </div>
+  );
+}
+
+/** prefers-reduced-motion: no pinning, no per-element motion — three stacked
+ * steps with the diagram already showing its final, complete state. */
+function StaticSteps() {
+  const pipelineRefs = usePipelineRefs();
+
+  useEffect(() => {
+    let cancelled = false;
+    let cleanup: (() => void) | undefined;
+
+    import("@/components/pipeline/pipelineTimeline").then(
+      ({ buildPipelineTimeline }) => {
+        if (cancelled) return;
+        const tl = buildPipelineTimeline(pipelineRefs);
+        tl.progress(1);
+        cleanup = () => tl.kill();
+      }
+    );
+
+    return () => {
+      cancelled = true;
+      cleanup?.();
+    };
+    // pipelineRefs is a stable set of refs, but a new wrapping object each
+    // render — intentionally omitted so this effect only runs once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <div className="flex flex-col gap-16">
+      {STEPS.map((step) => (
+        <CopyBlock key={step.tag} step={step} />
+      ))}
+      <PipelineDiagram
+        refs={pipelineRefs}
+        className="w-full max-w-md mx-auto h-auto"
+      />
+    </div>
   );
 }
