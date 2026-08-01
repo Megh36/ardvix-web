@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import PipelineDiagram, {
   usePipelineRefs,
 } from "@/components/pipeline/PipelineDiagram";
+import Reveal from "@/components/Reveal";
 import usePrefersReducedMotion from "@/components/usePrefersReducedMotion";
 
 const STEPS = [
@@ -201,25 +202,11 @@ function DesktopSequence() {
   );
 }
 
-/** Mobile: three stacked blocks, each with its own small diagram that plays
- * once (cumulative through that step) on IntersectionObserver entry. */
+/** Mobile: one unified diagram that plays its full state 1 -> 2 -> 3
+ * timeline once (~4s) on IntersectionObserver entry, then holds at the
+ * final state. All three step-copy blocks stack below it, staggered in
+ * via Reveal. */
 function MobileSteps() {
-  return (
-    <div className="flex flex-col gap-20">
-      {STEPS.map((step, i) => (
-        <MobileStepBlock key={step.tag} step={step} stepIndex={i} />
-      ))}
-    </div>
-  );
-}
-
-function MobileStepBlock({
-  step,
-  stepIndex,
-}: {
-  step: (typeof STEPS)[number];
-  stepIndex: number;
-}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const pipelineRefs = usePipelineRefs();
   const played = useRef(false);
@@ -237,21 +224,18 @@ function MobileStepBlock({
             observer.unobserve(entry.target);
             // load GSAP + build the timeline (and its getTotalLength()
             // measurements) lazily, right before it's needed, instead of
-            // up front for every block on mount
+            // up front on mount
             import("@/components/pipeline/pipelineTimeline").then(
               ({ buildPipelineTimeline }) => {
                 const tl = buildPipelineTimeline(pipelineRefs);
                 tlRef.current = tl;
-                tl.tweenTo(stepIndex + 1, {
-                  duration: 1,
-                  ease: "power2.out",
-                });
+                tl.tweenTo(3, { duration: 4, ease: "power2.out" });
               }
             );
           }
         });
       },
-      { threshold: 0.3, rootMargin: "200px 0px" }
+      { threshold: 0.3 }
     );
 
     observer.observe(el);
@@ -260,17 +244,23 @@ function MobileStepBlock({
       tlRef.current?.kill();
     };
     // pipelineRefs is a stable set of refs, but a new wrapping object each
-    // render — intentionally omitted so this effect only re-runs on stepIndex
+    // render — intentionally omitted so this effect only runs once
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stepIndex]);
+  }, []);
 
   return (
     <div ref={containerRef}>
-      <CopyBlock step={step} className="mb-8" />
       <PipelineDiagram
         refs={pipelineRefs}
         className="w-full max-w-xs mx-auto h-auto"
       />
+      <div className="flex flex-col gap-12 mt-12">
+        {STEPS.map((step, i) => (
+          <Reveal key={step.tag} delay={i * 100}>
+            <CopyBlock step={step} />
+          </Reveal>
+        ))}
+      </div>
     </div>
   );
 }
