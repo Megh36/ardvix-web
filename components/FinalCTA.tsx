@@ -62,7 +62,9 @@ export default function FinalCTA() {
                 Book a free audit
               </a>
               <a
-                href="mailto:hello@ardvix.com?subject=Ardvix%20Enquiry&body=Hi%20Ardvix%2C%20I%27d%20like%20to%20talk%20about%20automation%20for%20my%20business."
+                href="https://wa.me/919979210322?text=Hi%20Ardvix%2C%20I%27d%20like%20to%20talk%20about%20automation%20for%20my%20business."
+                target="_blank"
+                rel="noopener noreferrer"
                 className="cta-pulse-secondary border border-copper text-copper font-medium px-8 py-4 rounded-full flex items-center gap-2 hover:bg-copper/10 transition-colors"
               >
                 <WhatsAppIcon />

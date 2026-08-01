@@ -58,7 +58,9 @@ export default function Footer() {
                 Book a free audit
               </a>
               <a
-                href="mailto:hello@ardvix.com?subject=Ardvix%20Enquiry&body=Hi%20Ardvix%2C%20I%27d%20like%20to%20talk%20about%20automation%20for%20my%20business."
+                href="https://wa.me/919979210322?text=Hi%20Ardvix%2C%20I%27d%20like%20to%20talk%20about%20automation%20for%20my%20business."
+                target="_blank"
+                rel="noopener noreferrer"
                 className="border border-copper text-copper text-sm px-4 py-2 rounded-full text-center"
               >
                 Message us on WhatsApp
