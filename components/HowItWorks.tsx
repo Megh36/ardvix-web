@@ -202,46 +202,57 @@ function DesktopSequence() {
   );
 }
 
-/** Mobile: one unified diagram that plays its full state 1 -> 2 -> 3
- * timeline once (~4s) on IntersectionObserver entry, then holds at the
- * final state. All three step-copy blocks stack below it, staggered in
- * via Reveal. */
+/** Mobile: the section scrolls naturally (no pin) — the diagram's timeline
+ * scrubs in sync with scroll progress across the diagram's own viewport
+ * span, via a ScrollTrigger with pin:false. Three step-copy blocks stack
+ * below it, staggered in via Reveal (independent of the diagram scrub). */
 function MobileSteps() {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const diagramRef = useRef<HTMLDivElement>(null);
   const pipelineRefs = usePipelineRefs();
-  const played = useRef(false);
-  const tlRef = useRef<{ kill: () => void } | null>(null);
 
   useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
+    let cancelled = false;
+    let cleanup: (() => void) | undefined;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !played.current) {
-            played.current = true;
-            observer.unobserve(entry.target);
-            // load GSAP + build the timeline (and its getTotalLength()
-            // measurements) lazily, right before it's needed, instead of
-            // up front on mount
-            import("@/components/pipeline/pipelineTimeline").then(
-              ({ buildPipelineTimeline }) => {
-                const tl = buildPipelineTimeline(pipelineRefs);
-                tlRef.current = tl;
-                tl.tweenTo(3, { duration: 4, ease: "power2.out" });
-              }
-            );
-          }
+    Promise.all([
+      import("gsap"),
+      import("gsap/ScrollTrigger"),
+      import("@/components/pipeline/pipelineTimeline"),
+    ]).then(([{ gsap }, { ScrollTrigger }, { buildPipelineTimeline }]) => {
+      if (cancelled) return;
+      gsap.registerPlugin(ScrollTrigger);
+
+      const mm = gsap.matchMedia();
+
+      mm.add("(max-width: 767px)", () => {
+        const diagram = diagramRef.current;
+        if (!diagram) return;
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: diagram,
+            start: "top 80%",
+            end: "bottom 20%",
+            scrub: 0.5,
+            pin: false,
+          },
         });
-      },
-      { threshold: 0.3 }
-    );
 
-    observer.observe(el);
+        buildPipelineTimeline(pipelineRefs, tl);
+
+        return () => {
+          tl.scrollTrigger?.kill();
+          tl.kill();
+        };
+      });
+      // pinning intentionally has no handler at/above 768px — DesktopSequence covers that range
+
+      cleanup = () => mm.revert();
+    });
+
     return () => {
-      observer.disconnect();
-      tlRef.current?.kill();
+      cancelled = true;
+      cleanup?.();
     };
     // pipelineRefs is a stable set of refs, but a new wrapping object each
     // render — intentionally omitted so this effect only runs once
@@ -249,11 +260,13 @@ function MobileSteps() {
   }, []);
 
   return (
-    <div ref={containerRef}>
-      <PipelineDiagram
-        refs={pipelineRefs}
-        className="w-full max-w-xs mx-auto h-auto"
-      />
+    <div>
+      <div ref={diagramRef}>
+        <PipelineDiagram
+          refs={pipelineRefs}
+          className="w-full max-w-xs mx-auto h-auto"
+        />
+      </div>
       <div className="flex flex-col gap-12 mt-12">
         {STEPS.map((step, i) => (
           <Reveal key={step.tag} delay={i * 100}>
