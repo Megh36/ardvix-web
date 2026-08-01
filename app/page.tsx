@@ -8,6 +8,11 @@ import Proof from "@/components/Proof";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
 
+// No auth, no personalization, no per-request data — force static
+// generation so this serves from the edge instead of a cold-starting
+// serverless function on every request.
+export const dynamic = "force-static";
+
 export default function Home() {
   return (
     <>
