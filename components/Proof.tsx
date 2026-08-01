@@ -55,11 +55,14 @@ const timeline = [
 
 export default function Proof() {
   return (
-    <section id="work" className="px-6 py-32">
+    <section id="work" aria-labelledby="work-heading" className="px-6 py-32">
       <div className="max-w-7xl mx-auto">
         {/* Band A — stat counters */}
         <div>
-          <p className="font-mono text-copper text-sm tracking-widest mb-6">
+          <p
+            id="work-heading"
+            className="font-mono text-copper text-sm tracking-widest mb-6"
+          >
             {"// WHY IT WORKS"}
           </p>
 
@@ -67,7 +70,7 @@ export default function Proof() {
             {stats.map((s, i) => (
               <Reveal key={s.caption} delay={i * 60}>
                 <div>
-                  <div className="font-mono text-copper text-6xl md:text-7xl leading-none">
+                  <div className="font-mono text-copper text-3xl sm:text-4xl md:text-4xl lg:text-5xl leading-none whitespace-nowrap">
                     {s.kind === "count" ? (
                       <CountStat
                         from={s.from}
@@ -106,7 +109,7 @@ export default function Proof() {
                   installers. Automates paperwork status, customer updates,
                   and follow-up.
                 </p>
-                <p className="font-mono text-steel-mist/60 text-xs mt-8">
+                <p className="font-mono text-steel-mist/70 text-xs mt-8">
                   Built by Ardvix
                 </p>
               </div>
