@@ -41,7 +41,8 @@ export default function ClinicMock() {
   return (
     <div
       className="relative min-h-[380px] md:aspect-[4/5] overflow-hidden rounded-2xl border border-steel-mist/15 bg-obsidian p-6 transition-transform duration-200 hover:scale-[1.01] shadow-[inset_0_24px_32px_-24px_rgba(0,0,0,0.55)]"
-      aria-hidden="true"
+      role="img"
+      aria-label="Illustration of a clinic's daily appointment calendar showing confirmed bookings, a reminder sent by SMS and WhatsApp, and a new booking, with no-shows down 60% this week."
     >
       <span className="font-mono text-copper text-xs tracking-widest">
         TODAY — WED 30 JUL

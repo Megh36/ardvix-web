@@ -11,6 +11,7 @@ function WhatsAppIcon() {
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
+      aria-hidden="true"
     >
       <path d="M12 3a9 9 0 0 0-7.75 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3Z" />
       <path d="M8.5 8.8c.2-.5.4-.5.6-.5h.5c.15 0 .35 0 .5.4.2.5.6 1.5.65 1.6.05.1.1.25 0 .4-.1.15-.15.25-.3.4-.15.15-.3.3-.15.6.15.3.7 1.2 1.5 1.9.9.8 1.6 1 1.9 1.15.3.15.5.1.65-.05.15-.15.65-.75.8-1 .15-.25.3-.2.5-.1.2.05 1.3.6 1.5.7.2.1.35.15.4.25.05.1.05.6-.15 1.15-.2.55-1.15 1.05-1.6 1.1-.4.05-.9.1-2.9-.6-2.45-.9-4-3.4-4.15-3.6-.15-.2-1.2-1.6-1.2-3 0-1.4.75-2.1.9-2.35Z" />
@@ -22,6 +23,7 @@ export default function FinalCTA() {
   return (
     <section
       id="book"
+      aria-labelledby="book-heading"
       className="relative min-h-screen flex items-center px-6 py-32 overflow-hidden"
     >
       <div
@@ -39,7 +41,10 @@ export default function FinalCTA() {
               {"// LET'S BUILD"}
             </p>
 
-            <h2 className="font-sans font-medium text-5xl md:text-7xl leading-[1.02] tracking-tight">
+            <h2
+              id="book-heading"
+              className="font-sans font-medium text-5xl md:text-7xl leading-[1.02] tracking-tight"
+            >
               Let&apos;s automate the busywork.
             </h2>
 
@@ -71,7 +76,10 @@ export default function FinalCTA() {
           </div>
         </Reveal>
 
-        <div className="mt-20 overflow-hidden border-y border-steel-mist/10 py-4">
+        <div
+          aria-hidden="true"
+          className="mt-20 overflow-hidden border-y border-steel-mist/10 py-4"
+        >
           <div className="flex gap-12 whitespace-nowrap animate-marquee-slow font-mono text-steel-mist text-sm">
             {Array(3)
               .fill(

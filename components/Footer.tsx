@@ -75,7 +75,8 @@ export default function Footer() {
       </div>
 
       <div className="relative overflow-hidden -mb-16 md:-mb-24 lg:-mb-32">
-        <h2
+        <p
+          aria-hidden="true"
           className="font-sans font-bold text-center leading-none select-none"
           style={{
             fontSize: "clamp(120px, 22vw, 380px)",
@@ -84,7 +85,7 @@ export default function Footer() {
           }}
         >
           ARDVIX
-        </h2>
+        </p>
       </div>
     </footer>
   );

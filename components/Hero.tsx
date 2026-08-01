@@ -1,6 +1,9 @@
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center px-6 pt-24 pb-16 overflow-hidden">
+    <section
+      aria-labelledby="hero-heading"
+      className="relative min-h-screen flex items-center px-6 pt-24 pb-16 overflow-hidden"
+    >
       {/* Background gradient — placeholder for particles */}
       <div className="absolute inset-0 -z-10 hero-glow" />
 
@@ -10,7 +13,10 @@ export default function Hero() {
             {"// AI AUTOMATION SYSTEMS"}
           </p>
 
-          <h1 className="font-sans font-medium text-5xl md:text-7xl lg:text-8xl leading-[0.95] tracking-tight max-w-4xl">
+          <h1
+            id="hero-heading"
+            className="font-sans font-medium text-5xl md:text-7xl lg:text-8xl leading-[0.95] tracking-tight max-w-4xl"
+          >
             Your business,
             <br />
             on autopilot.
@@ -37,8 +43,11 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Ticker */}
-        <div className="mt-20 overflow-hidden border-y border-steel-mist/10 py-4">
+        {/* Ticker — decorative, repeats the same text 3x for the loop */}
+        <div
+          aria-hidden="true"
+          className="mt-20 overflow-hidden border-y border-steel-mist/10 py-4"
+        >
           <div className="flex gap-12 whitespace-nowrap animate-marquee font-mono text-copper text-sm">
             {Array(3)
               .fill(

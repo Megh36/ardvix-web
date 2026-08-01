@@ -37,13 +37,16 @@ const services = [
 
 export default function Services() {
   return (
-    <section id="services" className="px-6 py-32">
+    <section id="services" aria-labelledby="services-heading" className="px-6 py-32">
       <div className="max-w-7xl mx-auto">
         <p className="font-mono text-copper text-sm tracking-widest mb-6">
           {"// WHAT WE BUILD"}
         </p>
 
-        <h2 className="font-sans font-medium text-4xl md:text-6xl leading-[1.05] tracking-tight mb-16">
+        <h2
+          id="services-heading"
+          className="font-sans font-medium text-4xl md:text-6xl leading-[1.05] tracking-tight mb-16"
+        >
           Six systems. One outcome — leverage.
         </h2>
 

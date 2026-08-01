@@ -7,7 +7,8 @@ export default function RealEstateMock() {
   return (
     <div
       className="relative min-h-[400px] md:aspect-[4/5] overflow-hidden rounded-2xl border border-steel-mist/15 bg-obsidian p-5 transition-transform duration-200 hover:scale-[1.01] shadow-[inset_0_24px_32px_-24px_rgba(0,0,0,0.55)] flex flex-col"
-      aria-hidden="true"
+      role="img"
+      aria-label="Illustration of a WhatsApp conversation: a customer asks whether a property listing is still available, the AI auto-replies within 22 seconds with details and a viewing offer, and a site visit is booked for Saturday at 11 AM."
     >
       {/* phone frame chrome */}
       <div className="flex items-center justify-center mb-4">

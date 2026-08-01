@@ -14,7 +14,8 @@ export default function SolarMock() {
   return (
     <div
       className="relative min-h-[360px] md:aspect-[4/5] overflow-hidden rounded-2xl border border-steel-mist/15 bg-obsidian p-6 transition-transform duration-200 hover:scale-[1.01] shadow-[inset_0_24px_32px_-24px_rgba(0,0,0,0.55)]"
-      aria-hidden="true"
+      role="img"
+      aria-label="Illustration of a solar installation pipeline board showing four customers moving through a six-stage process from lead to subsidy, each at a different stage."
     >
       <span className="font-mono text-copper text-xs tracking-widest">
         PIPELINE — 4 ACTIVE

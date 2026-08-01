@@ -182,9 +182,12 @@ export default function ProblemStrip() {
 
   if (reducedMotion) {
     return (
-      <section className="px-6 py-32">
+      <section aria-labelledby="problem-strip-heading" className="px-6 py-32">
         <div className="max-w-4xl mx-auto">
-          <p className="font-mono text-copper text-sm tracking-widest mb-16">
+          <p
+            id="problem-strip-heading"
+            className="font-mono text-copper text-sm tracking-widest mb-16"
+          >
             {"// THE CHAOS YOU LIVE IN"}
           </p>
 
@@ -215,9 +218,16 @@ export default function ProblemStrip() {
   }
 
   return (
-    <section ref={sectionRef} className="px-6 py-32">
+    <section
+      ref={sectionRef}
+      aria-labelledby="problem-strip-heading"
+      className="px-6 py-32"
+    >
       <div className="max-w-4xl mx-auto">
-        <p className="font-mono text-copper text-sm tracking-widest mb-16">
+        <p
+          id="problem-strip-heading"
+          className="font-mono text-copper text-sm tracking-widest mb-16"
+        >
           {"// THE CHAOS YOU LIVE IN"}
         </p>
 

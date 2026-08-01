@@ -41,13 +41,16 @@ const verticals = [
 
 export default function Verticals() {
   return (
-    <section id="verticals" className="px-6 py-32">
+    <section id="verticals" aria-labelledby="verticals-heading" className="px-6 py-32">
       <div className="max-w-7xl mx-auto">
         <p className="font-mono text-copper text-sm tracking-widest mb-6">
           {"// BUILT FOR YOUR INDUSTRY"}
         </p>
 
-        <h2 className="font-sans font-medium text-4xl md:text-6xl leading-[1.05] tracking-tight mb-16">
+        <h2
+          id="verticals-heading"
+          className="font-sans font-medium text-4xl md:text-6xl leading-[1.05] tracking-tight mb-16"
+        >
           Automation, tuned to how you actually work.
         </h2>
 

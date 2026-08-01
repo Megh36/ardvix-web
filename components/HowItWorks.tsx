@@ -29,12 +29,15 @@ export default function HowItWorks() {
   const reducedMotion = usePrefersReducedMotion();
 
   return (
-    <section id="process" className="px-6 py-32">
+    <section id="process" aria-labelledby="process-heading" className="px-6 py-32">
       <div className="max-w-5xl mx-auto mb-16">
         <p className="font-mono text-copper text-sm tracking-widest mb-6">
           {"// HOW IT WORKS"}
         </p>
-        <h2 className="font-sans font-medium text-4xl md:text-6xl leading-[1.05] tracking-tight">
+        <h2
+          id="process-heading"
+          className="font-sans font-medium text-4xl md:text-6xl leading-[1.05] tracking-tight"
+        >
           Chaos in. Signal out.
         </h2>
       </div>

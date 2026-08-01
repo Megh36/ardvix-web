@@ -56,6 +56,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${schibsted.variable} ${jetbrains.variable}`}>
       <body className="antialiased">
+        <a href="#main-content" className="skip-link">
+          Skip to content
+        </a>
         <Preloader />
         <LenisProvider>{children}</LenisProvider>
         <Analytics />
