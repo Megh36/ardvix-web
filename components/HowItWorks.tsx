@@ -25,6 +25,21 @@ const STEPS = [
   },
 ] as const;
 
+/** Runs `callback` once the browser is idle (setTimeout(...,0) fallback for
+ * browsers without requestIdleCallback, e.g. Safari) — used to keep the
+ * pipeline chapter's GSAP/ScrollTrigger init from competing with hero
+ * paint, since this section sits far below the fold. */
+function onIdle(callback: () => void): number {
+  const ric =
+    window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 0));
+  return ric(callback) as number;
+}
+
+function cancelIdle(handle: number) {
+  if (window.cancelIdleCallback) window.cancelIdleCallback(handle);
+  else window.clearTimeout(handle);
+}
+
 export default function HowItWorks() {
   const reducedMotion = usePrefersReducedMotion();
 
@@ -96,90 +111,98 @@ function DesktopSequence() {
     let cancelled = false;
     let cleanup: (() => void) | undefined;
 
-    Promise.all([
-      import("gsap"),
-      import("gsap/ScrollTrigger"),
-      import("@/components/pipeline/pipelineTimeline"),
-    ]).then(([{ gsap }, { ScrollTrigger }, { buildPipelineTimeline }]) => {
+    // This chapter is far below the fold — its GSAP/ScrollTrigger init
+    // shouldn't compete with hero paint, so it's pushed to idle time on
+    // top of already being dynamically imported.
+    const idleHandle = onIdle(() => {
       if (cancelled) return;
-      gsap.registerPlugin(ScrollTrigger);
 
-      const mm = gsap.matchMedia();
+      Promise.all([
+        import("gsap"),
+        import("gsap/ScrollTrigger"),
+        import("@/components/pipeline/pipelineTimeline"),
+      ]).then(([{ gsap }, { ScrollTrigger }, { buildPipelineTimeline }]) => {
+        if (cancelled) return;
+        gsap.registerPlugin(ScrollTrigger);
 
-      mm.add("(min-width: 768px)", () => {
-        const section = sectionRef.current;
-        if (!section) return;
+        const mm = gsap.matchMedia();
 
-        const master = gsap.timeline({
-          defaults: { ease: "power3.out" },
-          scrollTrigger: {
-            trigger: section,
-            start: "top top",
-            end: "+=300%",
-            pin: true,
-            scrub: 0.8,
-            snap: {
-              snapTo: [1 / 6, 1 / 2, 5 / 6],
-              duration: 0.4,
-              ease: "power1.inOut",
+        mm.add("(min-width: 768px)", () => {
+          const section = sectionRef.current;
+          if (!section) return;
+
+          const master = gsap.timeline({
+            defaults: { ease: "power3.out" },
+            scrollTrigger: {
+              trigger: section,
+              start: "top top",
+              end: "+=300%",
+              pin: true,
+              scrub: 0.8,
+              snap: {
+                snapTo: [1 / 6, 1 / 2, 5 / 6],
+                duration: 0.4,
+                ease: "power1.inOut",
+              },
+              onUpdate: (self) => {
+                if (progressBarRef.current) {
+                  progressBarRef.current.style.width = `${self.progress * 100}%`;
+                  progressBarRef.current.style.opacity = self.isActive
+                    ? "1"
+                    : "0";
+                }
+              },
             },
-            onUpdate: (self) => {
-              if (progressBarRef.current) {
-                progressBarRef.current.style.width = `${self.progress * 100}%`;
-                progressBarRef.current.style.opacity = self.isActive
-                  ? "1"
-                  : "0";
-              }
-            },
-          },
+          });
+
+          buildPipelineTimeline(pipelineRefs, master);
+
+          gsap.set(copyRefs.current, { opacity: 0, y: 20 });
+          gsap.set(copyRefs.current[0], { opacity: 1, y: 0 });
+
+          STEPS.forEach((_, i) => {
+            if (i === 0) return;
+            const at = i; // step boundaries sit at timeline t=1 and t=2
+            master.to(
+              copyRefs.current[i - 1],
+              { opacity: 0, y: -20, duration: 0.25 },
+              at - 0.15
+            );
+            master.to(
+              copyRefs.current[i],
+              { opacity: 1, y: 0, duration: 0.25 },
+              at
+            );
+          });
+
+          return () => {
+            master.scrollTrigger?.kill();
+            master.kill();
+          };
         });
+        // pinning intentionally has no handler below 768px — MobileSteps covers that range
 
-        buildPipelineTimeline(pipelineRefs, master);
+        // This section's pin-spacer (desktop only) inflates the document's
+        // height well after mount, asynchronously, on purpose (gsap/
+        // ScrollTrigger are dynamically imported to keep them out of the
+        // critical bundle). If the page loaded with a #hash pointing at a
+        // section below this one, the browser's initial scroll-to-anchor
+        // already ran against the shorter pre-inflation layout and needs
+        // to be redone now that the pin-spacer's height is final.
+        ScrollTrigger.refresh();
+        if (window.location.hash) {
+          const target = document.querySelector(window.location.hash);
+          target?.scrollIntoView();
+        }
 
-        gsap.set(copyRefs.current, { opacity: 0, y: 20 });
-        gsap.set(copyRefs.current[0], { opacity: 1, y: 0 });
-
-        STEPS.forEach((_, i) => {
-          if (i === 0) return;
-          const at = i; // step boundaries sit at timeline t=1 and t=2
-          master.to(
-            copyRefs.current[i - 1],
-            { opacity: 0, y: -20, duration: 0.25 },
-            at - 0.15
-          );
-          master.to(
-            copyRefs.current[i],
-            { opacity: 1, y: 0, duration: 0.25 },
-            at
-          );
-        });
-
-        return () => {
-          master.scrollTrigger?.kill();
-          master.kill();
-        };
+        cleanup = () => mm.revert();
       });
-      // pinning intentionally has no handler below 768px — MobileSteps covers that range
-
-      // This section's pin-spacer (desktop only) inflates the document's
-      // height well after mount, asynchronously, on purpose (gsap/
-      // ScrollTrigger are dynamically imported to keep them out of the
-      // critical bundle). If the page loaded with a #hash pointing at a
-      // section below this one, the browser's initial scroll-to-anchor
-      // already ran against the shorter pre-inflation layout and needs to
-      // be redone now that the pin-spacer's height is final.
-      ScrollTrigger.refresh();
-      if (window.location.hash) {
-        const target = document.querySelector(window.location.hash);
-        target?.scrollIntoView();
-      }
-
-      cleanup = () => mm.revert();
     });
 
     return () => {
       cancelled = true;
       cleanup?.();
+      cancelIdle(idleHandle);
     };
     // pipelineRefs is a stable set of refs, but a new wrapping object each
     // render — intentionally omitted so this effect only runs once
@@ -233,45 +256,53 @@ function MobileSteps() {
     let cancelled = false;
     let cleanup: (() => void) | undefined;
 
-    Promise.all([
-      import("gsap"),
-      import("gsap/ScrollTrigger"),
-      import("@/components/pipeline/pipelineTimeline"),
-    ]).then(([{ gsap }, { ScrollTrigger }, { buildPipelineTimeline }]) => {
+    // This chapter is far below the fold — its GSAP/ScrollTrigger init
+    // shouldn't compete with hero paint, so it's pushed to idle time on
+    // top of already being dynamically imported.
+    const idleHandle = onIdle(() => {
       if (cancelled) return;
-      gsap.registerPlugin(ScrollTrigger);
 
-      const mm = gsap.matchMedia();
+      Promise.all([
+        import("gsap"),
+        import("gsap/ScrollTrigger"),
+        import("@/components/pipeline/pipelineTimeline"),
+      ]).then(([{ gsap }, { ScrollTrigger }, { buildPipelineTimeline }]) => {
+        if (cancelled) return;
+        gsap.registerPlugin(ScrollTrigger);
 
-      mm.add("(max-width: 767px)", () => {
-        const diagram = diagramRef.current;
-        if (!diagram) return;
+        const mm = gsap.matchMedia();
 
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: diagram,
-            start: "top 90%",
-            end: "top 20%",
-            scrub: 0.5,
-            pin: false,
-          },
+        mm.add("(max-width: 767px)", () => {
+          const diagram = diagramRef.current;
+          if (!diagram) return;
+
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: diagram,
+              start: "top 90%",
+              end: "top 20%",
+              scrub: 0.5,
+              pin: false,
+            },
+          });
+
+          buildPipelineTimeline(pipelineRefs, tl);
+
+          return () => {
+            tl.scrollTrigger?.kill();
+            tl.kill();
+          };
         });
+        // pinning intentionally has no handler at/above 768px — DesktopSequence covers that range
 
-        buildPipelineTimeline(pipelineRefs, tl);
-
-        return () => {
-          tl.scrollTrigger?.kill();
-          tl.kill();
-        };
+        cleanup = () => mm.revert();
       });
-      // pinning intentionally has no handler at/above 768px — DesktopSequence covers that range
-
-      cleanup = () => mm.revert();
     });
 
     return () => {
       cancelled = true;
       cleanup?.();
+      cancelIdle(idleHandle);
     };
     // pipelineRefs is a stable set of refs, but a new wrapping object each
     // render — intentionally omitted so this effect only runs once

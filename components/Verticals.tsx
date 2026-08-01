@@ -1,7 +1,22 @@
+import dynamic from "next/dynamic";
 import Reveal from "@/components/Reveal";
-import RealEstateMock from "@/components/verticals/RealEstateMock";
-import SolarMock from "@/components/verticals/SolarMock";
-import ClinicMock from "@/components/verticals/ClinicMock";
+
+// Server-rendered (the shell/markup is present immediately, matching what
+// SEO/no-JS visitors get), but each mock's JS moves into its own chunk
+// instead of the initial bundle — these are well below the fold and add
+// no interactivity, so there's nothing to gain from hydrating them early.
+const RealEstateMock = dynamic(
+  () => import("@/components/verticals/RealEstateMock"),
+  { ssr: true, loading: () => null }
+);
+const SolarMock = dynamic(() => import("@/components/verticals/SolarMock"), {
+  ssr: true,
+  loading: () => null,
+});
+const ClinicMock = dynamic(() => import("@/components/verticals/ClinicMock"), {
+  ssr: true,
+  loading: () => null,
+});
 
 const verticals = [
   {
