@@ -258,7 +258,7 @@ export default function PipelineDiagram({
       <text
         ref={chartPercentRef}
         x={565}
-        y={55}
+        y={30}
         textAnchor="end"
         fontFamily="var(--font-jetbrains)"
         fontSize={26}
@@ -270,7 +270,7 @@ export default function PipelineDiagram({
       <text
         ref={chartPercentLabelRef}
         x={565}
-        y={40}
+        y={59}
         textAnchor="end"
         fontFamily="var(--font-jetbrains)"
         fontSize={9}

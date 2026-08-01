@@ -69,8 +69,8 @@ export function buildPipelineTimeline(
     gsap.set(el, { strokeDasharray: streamLens[i], strokeDashoffset: streamLens[i] });
   });
   gsap.set(chartEl, { strokeDasharray: chartLen, strokeDashoffset: chartLen });
-  gsap.set(percentEl, { opacity: 0, attr: { y: 67 } });
-  gsap.set(percentLabelEl, { opacity: 0, attr: { y: 52 } });
+  gsap.set(percentEl, { opacity: 0, attr: { y: 42 } });
+  gsap.set(percentLabelEl, { opacity: 0, attr: { y: 71 } });
 
   const tl = into ?? gsap.timeline({ paused: true, defaults: { ease: EASE } });
 
@@ -101,8 +101,8 @@ export function buildPipelineTimeline(
   tl.to(chartEl, { strokeDashoffset: 0, duration: 0.4 }, 2.35);
   tl.to(chart4hrsEl, { attr: { "font-size": 13 }, fill: STEEL_MIST, duration: 0.3 }, 2.6);
   tl.to(chart30secEl, { attr: { "font-size": 22 }, fill: COPPER, duration: 0.3 }, 2.6);
-  tl.to(percentEl, { opacity: 1, attr: { y: 55 }, duration: 0.25 }, 2.8);
-  tl.to(percentLabelEl, { opacity: 1, attr: { y: 40 }, duration: 0.25 }, 2.8);
+  tl.to(percentEl, { opacity: 1, attr: { y: 30 }, duration: 0.25 }, 2.8);
+  tl.to(percentLabelEl, { opacity: 1, attr: { y: 59 }, duration: 0.25 }, 2.8);
 
   // pad to an exact duration of 3 so callers can rely on the 0/1/2/3 step
   // boundaries regardless of the last tween's real end time
