@@ -161,6 +161,19 @@ function DesktopSequence() {
       });
       // pinning intentionally has no handler below 768px — MobileSteps covers that range
 
+      // This section's pin-spacer (desktop only) inflates the document's
+      // height well after mount, asynchronously, on purpose (gsap/
+      // ScrollTrigger are dynamically imported to keep them out of the
+      // critical bundle). If the page loaded with a #hash pointing at a
+      // section below this one, the browser's initial scroll-to-anchor
+      // already ran against the shorter pre-inflation layout and needs to
+      // be redone now that the pin-spacer's height is final.
+      ScrollTrigger.refresh();
+      if (window.location.hash) {
+        const target = document.querySelector(window.location.hash);
+        target?.scrollIntoView();
+      }
+
       cleanup = () => mm.revert();
     });
 
