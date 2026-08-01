@@ -203,9 +203,12 @@ function DesktopSequence() {
 }
 
 /** Mobile: the section scrolls naturally (no pin) — the diagram's timeline
- * scrubs in sync with scroll progress across the diagram's own viewport
- * span, via a ScrollTrigger with pin:false. Three step-copy blocks stack
- * below it, staggered in via Reveal (independent of the diagram scrub). */
+ * scrubs in sync with scroll progress via a ScrollTrigger with pin:false.
+ * Range runs from the diagram's top entering the bottom 10% of the
+ * viewport to its top reaching 20% down, so it finishes while the
+ * section is still comfortably on screen rather than scrolled past.
+ * Three step-copy blocks stack below it, staggered in via Reveal
+ * (independent of the diagram scrub). */
 function MobileSteps() {
   const diagramRef = useRef<HTMLDivElement>(null);
   const pipelineRefs = usePipelineRefs();
@@ -231,8 +234,8 @@ function MobileSteps() {
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: diagram,
-            start: "top 80%",
-            end: "bottom 20%",
+            start: "top 90%",
+            end: "top 20%",
             scrub: 0.5,
             pin: false,
           },
