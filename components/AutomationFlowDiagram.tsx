@@ -35,7 +35,11 @@ const FLOW_STEPS: {
 }[] = [
   { id: "lead", x: 60, y: 200, label: "Enquiry", icon: MessageSquare, status: "active" },
   { id: "voice", x: 250, y: 90, label: "AI Voice Agent", icon: Phone, status: "processing" },
-  { id: "whatsapp", x: 250, y: 200, label: "WhatsApp", icon: MessageCircle, status: "active" },
+  // y:205 not 200 — sharing lead's exact y made calculatePath's horizontal
+  // branch in circuit-board.tsx emit a zero-length "V" segment (dy=0),
+  // which broke the pulse's dash sweep at that path's midpoint. The 5px
+  // offset is imperceptible but keeps dy nonzero.
+  { id: "whatsapp", x: 250, y: 205, label: "WhatsApp", icon: MessageCircle, status: "active" },
   { id: "crm", x: 250, y: 310, label: "CRM Sync", icon: Database, status: "active" },
   { id: "book", x: 440, y: 145, label: "Booked", icon: Calendar, status: "active" },
   { id: "followup", x: 440, y: 255, label: "Follow-Up", icon: Repeat, status: "processing" },
