@@ -70,6 +70,15 @@ html, body {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+
+  /* The 0.01ms override above doesn't actually stop an
+     animation-iteration-count:infinite loop — it just makes each cycle
+     complete imperceptibly fast while still looping forever, so repaints
+     catch arbitrary, jittering angles instead of a single frozen frame.
+     Needed explicitly for SpinningText's animate-spin ring. */
+  .animate-spin {
+    animation-play-state: paused !important;
+  }
 }
 
 @keyframes marquee {
