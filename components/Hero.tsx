@@ -24,10 +24,17 @@ const SpecialText = dynamic(
 // so swapping placeholder -> SpecialText at the idle-callback moment is
 // pixel-for-pixel invariant — the first attempt only matched the box
 // sizing on the animated side and measured CLS 0.045 from that swap.
+//
+// whitespace-nowrap is load-bearing: without it, random scrambled glyphs
+// can be wider in aggregate than the real word at the same character
+// count, wrapping to a second line and doubling the span's own layout
+// height — the h1's overflow-hidden hides that visually, but the Layout
+// Instability API still counts the underlying geometry change against
+// CLS regardless of whether it's actually painted.
 const LINE1_SIZING =
-  "w-[330px] md:w-[490px] lg:w-[645px] min-h-[45.6px] md:min-h-[68.4px] lg:min-h-[91.2px]";
+  "w-[330px] md:w-[490px] lg:w-[645px] min-h-[45.6px] md:min-h-[68.4px] lg:min-h-[91.2px] whitespace-nowrap overflow-hidden";
 const LINE2_SIZING =
-  "w-[285px] md:w-[415px] lg:w-[550px] min-h-[45.6px] md:min-h-[68.4px] lg:min-h-[91.2px]";
+  "w-[285px] md:w-[415px] lg:w-[550px] min-h-[45.6px] md:min-h-[68.4px] lg:min-h-[91.2px] whitespace-nowrap overflow-hidden";
 
 const HEADLINE_TYPOGRAPHY =
   "!font-sans font-medium text-5xl md:text-7xl lg:text-8xl tracking-tight";
