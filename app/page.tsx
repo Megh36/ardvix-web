@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import ProblemStrip from "@/components/ProblemStrip";
 import HowItWorks from "@/components/HowItWorks";
 import Services from "@/components/Services";
+import AutomationFlow from "@/components/AutomationFlow";
 import Verticals from "@/components/Verticals";
 import Proof from "@/components/Proof";
 import FinalCTA from "@/components/FinalCTA";
@@ -22,6 +23,7 @@ export default function Home() {
         <ProblemStrip />
         <HowItWorks />
         <Services />
+        <AutomationFlow />
         <Verticals />
         <Proof />
         <FinalCTA />
