@@ -11,6 +11,14 @@ const AutomationFlowDiagram = dynamic(
   { ssr: true, loading: () => null }
 );
 
+const NARRATION_LINES = [
+  "Lead arrives",
+  "AI Voice Agent responds in 22s",
+  "Details captured to CRM",
+  "Site visit booked automatically",
+  "Follow-up scheduled for 48h",
+];
+
 export default function AutomationFlow() {
   return (
     <section aria-labelledby="automation-flow-heading" className="px-6 py-32">
@@ -33,11 +41,30 @@ export default function AutomationFlow() {
           </p>
         </Reveal>
 
-        <Reveal delay={120}>
-          <div className="bg-[#121216] border border-white/5 rounded-2xl p-6 sm:p-8 md:p-12 flex items-center justify-center">
+        <div className="bg-[#121216] border border-white/5 rounded-2xl p-6 sm:p-8 md:p-12 grid grid-cols-1 md:grid-cols-[auto_1fr] gap-16 items-center">
+          <Reveal delay={120} className="flex items-center justify-center">
             <AutomationFlowDiagram />
+          </Reveal>
+
+          <div className="md:border-l md:border-white/10 md:pl-16">
+            <Reveal delay={0}>
+              <p className="font-mono text-copper text-sm tracking-widest mb-6">
+                {"// WHAT HAPPENS"}
+              </p>
+            </Reveal>
+
+            <div className="space-y-4">
+              {NARRATION_LINES.map((line, i) => (
+                <Reveal key={line} delay={i * 120}>
+                  <p className="font-mono text-sm md:text-base leading-relaxed flex gap-3">
+                    <span className="text-copper shrink-0">{">"}</span>
+                    <span className="text-steel-mist">{line}</span>
+                  </p>
+                </Reveal>
+              ))}
+            </div>
           </div>
-        </Reveal>
+        </div>
       </div>
     </section>
   );
