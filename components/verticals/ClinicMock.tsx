@@ -8,7 +8,6 @@ const SLOTS: { time: string; initials: string; status: Status; note?: string }[]
     status: "REMINDED",
     note: "SMS + WHATSAPP",
   },
-  { time: "11:00", initials: "A.M.", status: "CONFIRMED" },
   { time: "11:30", initials: "V.N.", status: "NEW BOOKING" },
   { time: "12:00", initials: "D.J.", status: "CONFIRMED" },
 ];
@@ -40,7 +39,7 @@ function StatusTag({ status }: { status: Status }) {
 export default function ClinicMock() {
   return (
     <div
-      className="relative min-h-[380px] md:aspect-[4/5] overflow-hidden rounded-2xl border border-steel-mist/15 bg-obsidian p-6 transition-transform duration-200 hover:scale-[1.01] shadow-[inset_0_24px_32px_-24px_rgba(0,0,0,0.55)]"
+      className="relative min-h-[300px] md:aspect-[5/4] overflow-hidden rounded-2xl border border-steel-mist/15 bg-obsidian p-4 transition-transform duration-200 hover:scale-[1.01] shadow-[inset_0_24px_32px_-24px_rgba(0,0,0,0.55)]"
       role="img"
       aria-label="Illustration of a clinic's daily appointment calendar showing confirmed bookings, a reminder sent by SMS and WhatsApp, and a new booking, with no-shows down 60% this week."
     >
@@ -69,7 +68,7 @@ export default function ClinicMock() {
 
       {/* anchored to the bottom edge, same as the booked-tag in the real
        * estate mock, so the mockup reads as filled rather than top-heavy */}
-      <div className="absolute left-6 right-6 bottom-6 border-t border-steel-mist/10 pt-3">
+      <div className="absolute left-4 right-4 bottom-4 border-t border-steel-mist/10 pt-3">
         <span className="font-mono text-steel-mist text-[10px] tracking-wide">
           NO-SHOWS THIS WEEK: 2{" "}
           <span className="text-copper">(↓ 60%)</span>

@@ -6,7 +6,7 @@ const WHATSAPP_GREEN = "#25D366";
 export default function RealEstateMock() {
   return (
     <div
-      className="relative min-h-[400px] md:aspect-[4/5] overflow-hidden rounded-2xl border border-steel-mist/15 bg-obsidian p-5 transition-transform duration-200 hover:scale-[1.01] shadow-[inset_0_24px_32px_-24px_rgba(0,0,0,0.55)] flex flex-col"
+      className="relative min-h-[300px] md:aspect-[5/4] overflow-hidden rounded-2xl border border-steel-mist/15 bg-obsidian p-4 transition-transform duration-200 hover:scale-[1.01] shadow-[inset_0_24px_32px_-24px_rgba(0,0,0,0.55)] flex flex-col"
       role="img"
       aria-label="Illustration of a WhatsApp conversation: a customer asks whether a property listing is still available, the AI auto-replies within 22 seconds with details and a viewing offer, and a site visit is booked for Saturday at 11 AM."
     >
@@ -41,18 +41,6 @@ export default function RealEstateMock() {
           </div>
           <span className="font-mono text-copper text-[10px] pr-1 tracking-wide">
             AUTO-REPLY · 22s
-          </span>
-        </div>
-
-        {/* typing indicator */}
-        <div className="flex items-center gap-1 pl-1">
-          <span className="flex gap-0.5">
-            <span className="w-1 h-1 rounded-full bg-steel-mist/50" />
-            <span className="w-1 h-1 rounded-full bg-steel-mist/50" />
-            <span className="w-1 h-1 rounded-full bg-steel-mist/50" />
-          </span>
-          <span className="font-mono text-steel-mist/50 text-[10px] italic">
-            typing…
           </span>
         </div>
 

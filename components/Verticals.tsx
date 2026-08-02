@@ -81,7 +81,7 @@ export default function Verticals() {
                 delay={i * 120}
                 className={i === verticals.length - 1 ? "" : "mb-16"}
               >
-                <div className="bg-[#121216] border border-white/5 rounded-2xl p-6 sm:p-8 md:p-12">
+                <div className="bg-[#121216] border border-white/5 rounded-2xl p-6 sm:p-8 md:p-8">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
                     <div
                       className={`order-1 ${visualFirstDesktop ? "md:order-1" : "md:order-2"}`}

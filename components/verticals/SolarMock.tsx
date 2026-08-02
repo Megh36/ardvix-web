@@ -4,7 +4,6 @@ const CUSTOMERS = [
   { name: "RAO, K.", stage: 4, active: true }, // INSTALL
   { name: "SHAH, M.", stage: 3, active: true }, // PROPOSAL
   { name: "PATEL, R.", stage: 2, active: true }, // SURVEY
-  { name: "IYER, S.", stage: 1, active: false }, // QUALIFIED, pending next step
 ] as const;
 
 /** Solar mockup: a stylized pipeline / status board — four homeowner
@@ -13,12 +12,12 @@ const CUSTOMERS = [
 export default function SolarMock() {
   return (
     <div
-      className="relative min-h-[360px] md:aspect-[4/5] overflow-hidden rounded-2xl border border-steel-mist/15 bg-obsidian p-6 transition-transform duration-200 hover:scale-[1.01] shadow-[inset_0_24px_32px_-24px_rgba(0,0,0,0.55)]"
+      className="relative min-h-[300px] md:aspect-[5/4] overflow-hidden rounded-2xl border border-steel-mist/15 bg-obsidian p-4 transition-transform duration-200 hover:scale-[1.01] shadow-[inset_0_24px_32px_-24px_rgba(0,0,0,0.55)]"
       role="img"
-      aria-label="Illustration of a solar installation pipeline board showing four customers moving through a six-stage process from lead to subsidy, each at a different stage."
+      aria-label="Illustration of a solar installation pipeline board showing three customers moving through a six-stage process from lead to subsidy, each at a different stage."
     >
       <span className="font-mono text-copper text-xs tracking-widest">
-        PIPELINE — 4 ACTIVE
+        PIPELINE — 3 ACTIVE
       </span>
 
       {/* axis legend */}
@@ -69,7 +68,7 @@ export default function SolarMock() {
 
       {/* anchored to the bottom edge, same as the booked-tag in the real
        * estate mock, so the mockup reads as filled rather than top-heavy */}
-      <div className="absolute left-6 right-6 bottom-6 border-t border-steel-mist/10 pt-3">
+      <div className="absolute left-4 right-4 bottom-4 border-t border-steel-mist/10 pt-3">
         <span className="font-mono text-steel-mist text-[10px] tracking-wide">
           AVG TIME TO INSTALL: 11 DAYS{" "}
           <span className="text-copper">(↓ 40%)</span>
