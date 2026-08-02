@@ -105,7 +105,7 @@ export default function FinalCTA() {
           <Reveal delay={120}>
             <div className="relative w-[240px] h-[240px] md:w-[400px] md:h-[400px] flex-shrink-0">
               <SpinningText
-                text="AUTOMATE · SCALE · CONVERT · ARDVIX · AUTOMATE · SCALE · CONVERT · ARDVIX · "
+                text="AUTOMATE · SCALE · CONVERT · ARDVIX · AUTOMATE · SCALE · CONVERT · ARDVIX · AUTOMATE · SCALE · CONVERT · ARDVIX · "
                 radius={42}
                 textClassName="text-[3.5px] fill-[#ABB8CC]"
                 speed={20}
